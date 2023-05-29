@@ -1,0 +1,223 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab {
+            padding-left: 20px;
+            color: black;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+        {#place-items: center;#} text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            margin-left: 45px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        tr.row-style {
+            background-color: lightblue;
+            color: white;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input {
+            width: 200px;
+            height: 40px;
+        }
+
+        input[type="text"] {
+            text-align: center;
+        }
+
+        input[type="date"] {
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            text-align: center;
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .text-base {
+            position: absolute;
+            left: 105%; /* Розташування по осі X */
+            top: 5%; /* Розташування по осі Y */
+            transform: translate(30%, 5%); /* Центрування елементу */
+        }
+
+        .text-signin {
+            position: absolute;
+            left: 73%; /* Розташування по осі X */
+            top: 4.9%; /* Розташування по осі Y */
+            transform: translate(30%, -50%); /* Центрування елементу */
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            position: fixed;
+            left: 75%; /* Розташування по осі X */
+            top: 6%; /* Розташування по осі Y */
+            transform: translate(50%, 43%); /* Центрування елементу */
+        }
+
+        .figure {
+            background-color: lightblue;
+            border: 2px solid cornflowerblue;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    {#    <p class="text-signin" style="font-size: 1.5rem;"><a href="/signin" class=""> Sing in </a></p>#}
+    <div class="dropdown">
+        {% if user != 'AnonymousUser' %}
+            <p class="text-base" style="font-size: 1.5rem;"><a href="/profile/{{ user_profile.user.username }}"
+                                                               class="">
+                Profile </a></p>
+        {% else %}
+            <p class="text-base" style="font-size: 1.5rem;"><a href="/signin"
+                                                               class="">
+                Profile </a></p>
+        {% endif %}
+        {% if user != 'AnonymousUser' %}
+            <div class="dropdown-content">
+                <a href="/settings">Edit Profile</a>
+                {% if user_profile.company != '' %}
+                    <br><a href="/add-ticket">Add ticket</a>
+                {% endif %}
+                <br><a href="/logout">Log out</a>
+            </div>
+        {% endif %}
+    </div>
+    <h1>Booking Airplane Tickets</h1>
+    <p>Welcome to our flight booking platform! Find the best deals and book your tickets with ease.</p>
+    <p>Start your journey by selecting your preferred destination and travel dates:</p>
+    <div>
+        <style>
+            h5 {
+                color: red;
+            }
+        </style>
+        {% for message in messages %}
+            <h5>{{ message }}</h5>
+        {% endfor %}
+    </div>
+    <form action="/search" method="GET">
+        {#        <div class="tab">#}
+        {#            Destination 1:#}
+        {#            <input type="text" name="destination1" placeholder="Destination 1" required>#}
+        {#        </div>#}
+        {#        <div class="tab">#}
+        {#            Destination 2:#}
+        {#            <input type="text" name="destination2" placeholder="Destination 2" required>#}
+        {#        </div>#}
+        <table>
+            <tr class="row-style">
+                <td><input type="text" name="destination1" placeholder="Destination" required></td>
+                <td>-></td>
+                <td><input type="text" name="destination2" placeholder="Destination" required></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>Date:</td>
+                <td><input type="date" name="departure_date"></td>
+            </tr>
+        </table>
+        {#        <a href="https://www.example.com">Add filters</a><br>#}
+        <input type="submit" value="Search Flights" class="button">
+    </form>
+</div>
+{% if tickets %}
+    {#    <script>#}
+    {#    var len = {{ tickets }}.length > 10 ? 10 : {{ tickets }}.length;#}
+    {#    for (i in len) {#}
+    {#        <fig>#}
+    {#    }#}
+    {#    </script>#}
+    <h2>Last added:</h2>
+    {% for result in tickets reversed %}
+        <figure class="figure">
+            <br>
+            <div style="padding-left: 50px; padding-right: 50px;">
+                <h3 style="color: blue;">Company: <a href="#">{{ result.company }}</a></h3>
+                <h3 style="color: green;">Destination 1: {{ result.destination1 }}</h3>
+                <h3 style="color: green;">Destination 2: {{ result.destination2 }}</h3>
+                <h3 style="color: green;">Date: {{ result.date }}</h3>
+            </div>
+            <div style="padding-left: 50px; padding-right: 50px;">
+                <strong style="font-size: 20px;">Price: {{ result.id }}</strong>
+                {% if user_profile.company == '' %}
+                    <a href="/buy-ticket?ticket_id={{ result.id }}" class="flex items-center space-x-2">
+                        Buy now
+                        {#                    <img src="https://i.pinimg.com/564x/0d/f0/c4/0df0c4851742f48f15038d16a6166935.jpg" width="30"#}
+                        {#                         height="30"/>#}
+                    </a>
+                {% endif %}
+            </div>
+            <br>
+        </figure>
+        <br>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+</head>
+<body class="bg-gray-100">
+<div id="wrapper" class="flex flex-col justify-between h-screen">
+    <p class="text-base" style="font-size: 1.5rem;"><a href="/" class=""> HOME </a></p>
+    <div>
+        <h1> Sign Up</h1>
+        <div>
+            <style>
+                h5 {
+                    color: red;
+                }
+            </style>
+            {% for message in messages %}
+                <h5>{{ message }}</h5>
+            {% endfor %}
+        </div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="text" name="firstname" placeholder="First Name" required>
+            <br><input type="text" name="lastname" placeholder="Last Name" required>
+            <br><input type="text" name="username" placeholder="Username" required>
+            <br><input type="email" name="email" placeholder="Email" required>
+            <br><input type="text" name="company" placeholder="Company">if you're just a user for buying tickets, then make it blank
+            <br><input type="password" name="password" placeholder="Password" required>
+            <br><input type="password" name="password2" placeholder="Confirm Password" required>
+            <br>
+            <button type="submit">Sign Up</button>
+            <div>
+                <p class="text-base"> Do you have an account? <a href="/signin"> Login </a></p>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

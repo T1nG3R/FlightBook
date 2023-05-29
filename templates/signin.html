@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+</head>
+<body class="bg-gray-100">
+<div id="wrapper" class="flex flex-col justify-between h-screen">
+    <p class="text-base" style="font-size: 1.5rem;"><a href="/" class=""> Home </a></p>
+    <div>
+        <h1>Log in</h1>
+        <div>
+            <style>
+                h5 {
+                    color: red;
+                }
+            </style>
+            {% for message in messages %}
+                <h5>{{ message }}</h5>
+            {% endfor %}
+        </div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <br><input type="password" name="password" placeholder="Password" required>
+            <br>
+            <button type="submit">Login</button>
+            <div>
+                <p class="text-base"> Not registered? <a href="/signup" class=""> Create a account </a></p>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

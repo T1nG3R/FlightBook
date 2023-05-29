@@ -1,0 +1,154 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .profile h2 {
+            margin: 0;
+        }
+
+        .ticket-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ticket-list li {
+            margin-bottom: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1><a href="/">Home</a> / Profile</h1>
+    <div>
+        <style>
+            h5 {
+                color: red;
+            }
+        </style>
+        {% for message in messages %}
+            <h5>{{ message }}</h5>
+        {% endfor %}
+    </div>
+    <div class="profile">
+        <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+        <figure>
+            <img src="{{ user_profile.profileimg.url }}" style="height: 250px; width: 100%;" alt="">
+            <!-- <form class="edit-phto">
+                <i class="fa fa-camera-retro"></i>
+                <label class="fileContainer">
+                    <a href="#account-settings">Upload Profile Photo</a>
+                </label>
+            </form> -->
+        </figure>
+        <div>
+            <h2>{{ user_profile.firstname_user }} {{ user_profile.lastname_user }}</h2>
+            <p>Phone: {{ user_profile.phone_user }}</p>
+            <p>Email: {{ user_profile.mail_user }}</p>
+            <p>Date of Birth: {{ user_profile.date_of_birth_user }}</p>
+            {% if user_profile.company != '' %}
+                <p>Company: {{ user_profile.company }}</p>
+            {% endif %}
+        </div>
+    </div>
+    <h2>My Tickets:</h2>
+    <ul class="ticket-list">
+        {% for result in user_tickets reversed %}
+            <li>
+                <figure class="figure"
+                        style="border: 2px solid cornflowerblue; background-color: lightblue; padding-left: 50px;">
+                    <br>
+                    {% if user_profile.company == '' %}
+                        <table>
+                            <tr class="row-style">
+                                <td style="color: blue;">Company: <a href="#">{{ result.0.company }}</a></td>
+                                <td style="color: blue;">Name: {{ result.2 }} {{ result.3 }}</td>
+                            </tr>
+                            <tr class="row-style">
+                                <td style="color: green;">Destination 1: {{ result.0.destination1 }}</td>
+                                <td style="color: green;">Date of Birth: {{ result.4 }}</td>
+                            </tr>
+                            <tr class="row-style">
+                                <td style="color: green;">Destination 2: {{ result.0.destination2 }}</td>
+                                <td style="color: green;">Email: {{ result.5 }}</td>
+                            </tr>
+                            <tr class="row-style">
+                                <td style="color: green;">Date: {{ result.0.date }}</td>
+                                <td style="color: green;">Phone: {{ result.6 }}</td>
+                            </tr>
+                        </table>
+                    {% endif %}
+                    {% if user_profile.company != '' %}
+                        <table>
+                            <tr class="row-style">
+                                <td style="color: blue;">Company: <a href="#">{{ result.company }}</a></td>
+                            </tr>
+                            <tr class="row-style">
+                                <td style="color: green;">Destination 1: {{ result.destination1 }}</td>
+                            </tr>
+                            <tr class="row-style">
+                                <td style="color: green;">Destination 2: {{ result.destination2 }}</td>
+                            </tr>
+                            <tr class="row-style">
+                                <td style="color: green;">Date: {{ result.date }}</td>
+                            </tr>
+                        </table>
+                        <a href="/edit-ticket/{{ result.id }}" class="button">Edit Ticket</a>
+                        <a href="/delete-ticket/{{ result.id }}" class="button">Delete Ticket</a>
+                        <br>
+                    {% endif %}
+                    <br>
+                </figure>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="/settings" class="button">Edit Profile</a>
+</div>
+</body>
+</html>

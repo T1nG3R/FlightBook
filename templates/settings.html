@@ -1,0 +1,111 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: grid;
+            grid-gap: 20px;
+        }
+
+        form label {
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1><a href="/">Home</a> / Account Setting for <b>{{ user.username }}</b></h1>
+    <h1>Edit Profile</h1>
+    <form action="/settings" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {#        <label for="username">Username:</label>#}
+        {#        <input type="text" name="username" value="{{ user.username }}" required>#}
+
+
+        <div class="col-span-2">
+            <label for="firstname">First Name:</label>
+            <input type="text" name="first_name" value="{{ user_profile.firstname_user }}"
+                   class="shadow-none bg-gray-100" required>
+        </div>
+        <div class="col-span-2">
+            <label for="lastname">Last Name:</label>
+            <input type="text" name="last_name" value="{{ user_profile.lastname_user }}" required>
+        </div>
+        {% if user_profile.company != '' %}
+            <div class="col-span-2">
+                <label for="company">Company:</label>
+                <input type="text" name="company" value="{{ user_profile.company }}">
+            </div>
+        {% endif %}
+        <div class="col-span-2">
+            <label for="date_of_birth">Date of Birth:</label>
+            <input type="date" id="dateOfBirth" name="date_of_birth">
+            <script>
+                var dateOfBirthValue = "{{ user_profile.date_of_birth_user }}";
+
+                if (dateOfBirthValue) {
+                    var dateOfBirth = new Date(dateOfBirthValue);
+                    var year = dateOfBirth.getFullYear();
+                    var month = ('0' + (dateOfBirth.getMonth() + 1)).slice(-2);
+                    var day = ('0' + dateOfBirth.getDate()).slice(-2);
+                    var formattedDate = year + '-' + month + '-' + day;
+
+                    document.getElementById("dateOfBirth").value = formattedDate;
+                }
+            </script>
+        </div>
+        <div class="col-span-2">
+            <label for="phone">Phone:</label>
+            <input type="tel" name="phone" value="{{ user_profile.phone_user }}">
+        </div>
+        <div class="col-span-2">
+            <label for="email">Email:</label>
+            <input type="email" name="email" value="{{ user_profile.mail_user }}" required>
+        </div>
+        {#        <label for="profile_picture">Profile Picture:</label>#}
+        {#        <input type="file" name="profile_picture" value="{{ user.lastname }}">#}
+        <div class="col-span-2">
+            {#            {% if person.image %}#}
+            <img width="100" height="100" src="{{ user_profile.profileimg.url }}"/><br>
+            {#            {% endif %}#}
+            <label for="profile_picture"> Profile Image</label>
+            <input type="file" name="profile_picture" value="">
+        </div>
+        <input type="submit" value="Save" class="button">
+    </form>
+</div>
+</body>
+</html>

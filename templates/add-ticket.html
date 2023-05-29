@@ -1,0 +1,163 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab {
+            padding-left: 20px;
+            color: black;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+        {#place-items: center;#} text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        tr.row-style {
+            background-color: lightblue;
+            color: white;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input {
+            width: 200px;
+            height: 40px;
+        }
+
+        input[type="text"] {
+            text-align: center;
+        }
+
+        input[type="date"] {
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            text-align: center;
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .text-base {
+            position: absolute;
+            left: 105%; /* Розташування по осі X */
+            top: 5%; /* Розташування по осі Y */
+            transform: translate(30%, 5%); /* Центрування елементу */
+        }
+
+        .text-signin {
+            position: absolute;
+            left: 73%; /* Розташування по осі X */
+            top: 4.9%; /* Розташування по осі Y */
+            transform: translate(30%, -50%); /* Центрування елементу */
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            position: fixed;
+            left: 75%; /* Розташування по осі X */
+            top: 6%; /* Розташування по осі Y */
+            transform: translate(50%, 43%); /* Центрування елементу */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+{#    <p class="text-signin" style="font-size: 1.5rem;"><a href="/signin" class=""> Sing in </a></p>#}
+{#    <p class="text-base" style="font-size: 1.5rem;"><a href="/" class=""> Home </a></p>#}
+    <div class="dropdown">
+        <p class="text-base" style="font-size: 1.5rem;"><a href="/profile/{{ user.username }}" class=""> Profile </a></p>
+        <div class="dropdown-content">
+            <a href="/settings">Edit Profile</a>
+            <br><a href="add-ticket">Add ticket</a>
+            <br><a href="logout">Log out</a>
+        </div>
+    </div>
+    <div>
+        <style>
+            h5 {
+                color: red;
+            }
+        </style>
+        {% for message in messages %}
+            <h5>{{ message }}</h5>
+        {% endfor %}
+    </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="username" value="{{ user.username }}">
+        <div class="tab">
+            Company:
+            <label>{{ user_profile.company }}</label>
+        </div>
+        <div class="tab">
+            Destination 1:
+            <input type="text" name="destination1" placeholder="Destination 1" required>
+        </div>
+        <div class="tab">
+            Destination 2:
+            <input type="text" name="destination2" placeholder="Destination 2" required>
+        </div>
+        <div class="tab">
+            Date:
+            <input type="datetime-local" name="departure_date" required>
+        </div>
+        <input type="submit" value="Add Ticket" class="button">
+    </form>
+</div>
+</body>
+</html>
