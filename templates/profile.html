@@ -122,6 +122,12 @@
                                 <td style="color: green;">Date: {{ result.0.date }}</td>
                                 <td style="color: green;">Phone: {{ result.6 }}</td>
                             </tr>
+                            <tr class="row-style">
+                                <td style="color: green;">Time: {{ result.0.time }}</td>
+                            </tr>
+                            <tr class="row-style">
+                                <td style="color: green;">Price: {{ result.0.price }}</td>
+                            </tr>
                         </table>
                     {% endif %}
                     {% if user_profile.company != '' %}
@@ -137,6 +143,12 @@
                             </tr>
                             <tr class="row-style">
                                 <td style="color: green;">Date: {{ result.date }}</td>
+                            </tr>
+                            <tr class="row-style">
+                                <td style="color: green;">Time: {{ result.time }}</td>
+                            </tr>
+                            <tr class="row-style">
+                                <td style="color: green;">Price: {{ result.price }}</td>
                             </tr>
                         </table>
                         <a href="/edit-ticket/{{ result.id }}" class="button">Edit Ticket</a>

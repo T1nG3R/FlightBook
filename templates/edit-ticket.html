@@ -148,16 +148,16 @@
         <div class="tab">
             Destination 1:
             <input type="text" name="destination1" value="{{ ticket.destination1 }}" placeholder="Destination 1"
-                   required>
+                   pattern="[A-Za-z]+" required>
         </div>
         <div class="tab">
             Destination 2:
             <input type="text" name="destination2" value="{{ ticket.destination2 }}" placeholder="Destination 2"
-                   required>
+                   pattern="[A-Za-z]+" required>
         </div>
         <div class="tab">
             <label for="date">Date:</label>
-            <input type="datetime-local" name="departure_date" id="departureDate">
+            <input type="date" name="departure_date" id="departureDate">
             <script>
                 var departureDateValue = "{{ ticket.date }}"; // Assuming this is your departure date value
 
@@ -166,13 +166,26 @@
                     var year = departureDate.getFullYear();
                     var month = ('0' + (departureDate.getMonth() + 1)).slice(-2);
                     var day = ('0' + departureDate.getDate()).slice(-2);
-                    var hours = ('0' + departureDate.getHours()).slice(-2);
-                    var minutes = ('0' + departureDate.getMinutes()).slice(-2);
-                    var formattedDate = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+                    var formattedDate = year + '-' + month + '-' + day;
 
                     document.getElementById("departureDate").value = formattedDate;
                 }
             </script>
+        </div>
+        <div class="tab">
+            <label for="time">Time:</label>
+            <input type="time" name="departure_time" id="departureTime">
+            {#            <input type="time" id="departure_time_input">#}
+
+            <script>
+                var departureTime = document.getElementById('departureTime').value;
+                console.log('Time:', departureTime);
+            </script>
+        </div>
+        <div class="tab">
+            Price:
+            <input type="text" name="price" value="{{ ticket.price }}" placeholder="Price"
+                   pattern="[0-9]+" required>
         </div>
         <input type="submit" value="Save Ticket" class="button">
     </form>

@@ -1,314 +1,181 @@
-{#{% load static %}#}
-{##}
-{#{% load static %}#}
-{##}
-{#<!DOCTYPE html>#}
-{#<html>#}
-{#<head>#}
-{#    <title>Search</title>#}
-{#    <style>#}
-{#        body {#}
-{#            font-family: Arial, sans-serif;#}
-{#            margin: 0;#}
-{#            padding: 0;#}
-{#        }#}
-{##}
-{#        h1 {#}
-{#            text-align: center;#}
-{#            color: #333;#}
-{#        }#}
-{##}
-{#        p {#}
-{#            margin-bottom: 20px;#}
-{#        }#}
-{##}
-{#        .button {#}
-{#            display: inline-block;#}
-{#            padding: 10px 20px;#}
-{#            background-color: #4CAF50;#}
-{#            color: #fff;#}
-{#            text-decoration: none;#}
-{#            border-radius: 4px;#}
-{#        }#}
-{##}
-{#        .button:hover {#}
-{#            background-color: #45a049;#}
-{#        }#}
-{##}
-{#        tr.row-style {#}
-{#            background-color: lightblue;#}
-{#            color: white;#}
-{#            margin-left: auto;#}
-{#            margin-right: auto;#}
-{#        }#}
-{##}
-{#        input {#}
-{#            width: 200px;#}
-{#            height: 40px;#}
-{#        }#}
-{##}
-{#        input[type="text"] {#}
-{#            text-align: center;#}
-{#        }#}
-{##}
-{#        input[type="date"] {#}
-{#            text-align: center;#}
-{#        }#}
-{##}
-{#        input[type="submit"] {#}
-{#            text-align: center;#}
-{#        }#}
-{##}
-{#        table {#}
-{#            margin-left: auto;#}
-{#            margin-right: auto;#}
-{#        }#}
-{##}
-{#        .text-base {#}
-{#            position: absolute;#}
-{#            left: 105%; /* Розташування по осі X */#}
-{#            top: 2%; /* Розташування по осі Y */#}
-{#            transform: translate(1800%, 26%); /* Центрування елементу */#}
-{#        }#}
-{##}
-{#        .text-signin {#}
-{#            position: absolute;#}
-{#            left: 73%; /* Розташування по осі X */#}
-{#            top: 4.9%; /* Розташування по осі Y */#}
-{#            transform: translate(30%, -50%); /* Центрування елементу */#}
-{#        }#}
-{##}
-{#        .dropdown {#}
-{#            position: relative;#}
-{#            display: inline-block;#}
-{#        }#}
-{##}
-{#        .dropdown-content {#}
-{#            display: none;#}
-{#            position: absolute;#}
-{#            background-color: #f9f9f9;#}
-{#            min-width: auto;#}
-{#            padding: 10px;#}
-{#            border: 1px solid #ddd;#}
-{#            z-index: 1;#}
-{#        }#}
-{##}
-{#        .dropdown:hover .dropdown-content {#}
-{#            display: block;#}
-{#            position: fixed;#}
-{#            left: 75%; /* Розташування по осі X */#}
-{#            top: 6%; /* Розташування по осі Y */#}
-{#            transform: translate(50%, 50%); /* Центрування елементу */#}
-{#        }#}
-{#    </style>#}
-    {#    <style>#}
-    {#        body {#}
-    {#            font-size: 10pt;#}
-    {#            font-family: arial, sans-serif;#}
-    {#        }#}
-    {##}
-    {#        a {#}
-    {#            text-decoration: none;#}
-    {##}
-    {#        }#}
-    {##}
-    {#        a:hover {#}
-    {#            text-decoration: underline;#}
-    {#        }#}
-    {##}
-    {#        button {#}
-    {#            font-weight: bold;#}
-    {#            font-family: arial;#}
-    {#        }#}
-    {##}
-    {##}
-    {#        /* Top Toolbar */#}
-    {##}
-    {#        .top-toolbar {#}
-    {#            height: 50px;#}
-    {#        }#}
-    {##}
-    {#        .top-toolbar nav {#}
-    {#            float: right;#}
-    {#            margin: 7px 21px;#}
-    {#        }#}
-    {##}
-    {#        .top-toolbar nav a {#}
-    {#            margin: 3px 6px;#}
-    {#            color: #404040;#}
-    {#        }#}
-    {##}
-    {#        .top-toolbar nav a:hover {#}
-    {#            color: #111111;#}
-    {#        }#}
-    {##}
-    {#        .top-toolbar nav button {#}
-    {#            padding: 7px 12px;#}
-    {#            border-radius: 2px;#}
-    {#            /* background-color: #4585F1;*/#}
-    {#            background-image: -moz-linear-gradient(top left, #4084F9 0%, #4585F1 100%);#}
-    {#            background-image: -o-linear-gradient(top left, #4084F9 0%, #4585F1 100%);#}
-    {#            background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #4585F1), color-stop(1, #0097DE));#}
-    {#            background-image: -webkit-linear-gradient(top left, #4084F9 0%, #4585F1 100%);#}
-    {#            color: white;#}
-    {#            border: 1px darkblue;#}
-    {#            font-size: 9.5pt;#}
-    {#        }#}
-    {##}
-    {#        .top-toolbar nav button:hover {#}
-    {#            box-shadow: 1px 1px 0 rgba(0, 0, 0, .2);#}
-    {#        }#}
-    {##}
-    {#        .top-toolbar nav img {#}
-    {#            margin: 0 7.5px;#}
-    {#            height: 22px;#}
-    {#            position: relative;#}
-    {#            top: 7px;#}
-    {#        }#}
-    {##}
-    {#        /* End of Top Toolbar */#}
-    {#        /* Search */#}
-    {##}
-    {#        .search {#}
-    {#            text-align: center;#}
-    {#            clear: both;#}
-    {#            margin: 11% 0 0 0;#}
-    {#        }#}
-    {##}
-    {#        .logo {#}
-    {#            max-width: 21%;#}
-    {#            margin: 0 auto;#}
-    {#        }#}
-    {##}
-    {#        .search img {#}
-    {#            margin-bottom: 3%;#}
-    {#            max-width: 100%;#}
-    {#        }#}
-    {##}
-    {#        .search input {#}
-    {##}
-    {#            width: 570px;#}
-    {#            border: 1px solid #D8D8D8;#}
-    {#            padding: 5px;#}
-    {#            font-size: 11pt;#}
-    {#            /* background: url('images/microphone.png') no-repeat;#}
-    {#            background-position: right;#}
-    {#            background-size: 4.25%;*/#}
-    {#        }#}
-    {##}
-    {#        .search-bar {#}
-    {#            max-width: 80%;#}
-    {#        }#}
-    {##}
-    {#        .search input:focus {#}
-    {#            outline: none;#}
-    {#            border: 1px solid #4285F4;#}
-    {#        }#}
-    {##}
-    {#        .search button {#}
-    {#            margin: 14px 7px 0 5px;#}
-    {#            padding: 7px 8px;#}
-    {#            border-radius: 2px;#}
-    {#            border: 1px solid #D0D0D0;#}
-    {#            color: #444444;#}
-    {#            background-image: -moz-linear-gradient(top, #F5F5F5 0%, #F0F0F0 100%);#}
-    {#            background-image: -o-linear-gradient(top, #F5F5F5 0%, #F0F0F0 100%);#}
-    {#            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F5F5F5), color-stop(1, #F0F0F0));#}
-    {#            background-image: -webkit-linear-gradient(top, #F5F5F5 0%, #F0F0F0 100%);#}
-    {#            background-image: linear-gradient(to bottom, #F5F5F5 0%, #F0F0F0 100%);#}
-    {#        }#}
-    {##}
-    {#        .search button:hover {#}
-    {#            box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);#}
-    {#        }#}
-    {##}
-    {#        /* End of Search */#}
-    {#        /* Footer */#}
-    {##}
-    {#        footer {#}
-    {#            position: fixed;#}
-    {#            bottom: 0;#}
-    {#            height: 42px;#}
-    {#            width: 100%;#}
-    {#            font-size: 9.5pt;#}
-    {#            background-image: -moz-linear-gradient(top, #F5F5F5 0%, #F0F0F0 100%);#}
-    {#            background-image: -o-linear-gradient(top, #F5F5F5 0%, #F0F0F0 100%);#}
-    {#            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F5F5F5), color-stop(1, #F0F0F0));#}
-    {#            background-image: -webkit-linear-gradient(top, #F5F5F5 0%, #F0F0F0 100%);#}
-    {#            background-image: linear-gradient(to bottom, #F5F5F5 0%, #F0F0F0 100%);#}
-    {#        }#}
-    {##}
-    {#        .footer-left {#}
-    {#            float: left;#}
-    {#            margin-left: 16px;#}
-    {#        }#}
-    {##}
-    {#        .footer-right {#}
-    {#            float: right;#}
-    {#            margin-right: 16px;#}
-    {#        }#}
-    {##}
-    {#        footer nav {#}
-    {#            display: inline-block;#}
-    {#            padding: 15px 0 0 0;#}
-    {#        }#}
-    {##}
-    {#        footer nav a {#}
-    {#            padding: 3px 14px;#}
-    {#            color: #646464;#}
-    {#        }#}
-    {##}
-    {#        footer nav a:hover {#}
-    {#            color: #000000;#}
-    {#        }#}
-    {##}
-    {#        /* End of Footer */#}
-    {##}
-    {#        @media screen and (max-width: 510px) {#}
-    {#            .top-toolbar nav a:nth-child(2), a:nth-child(3), footer {#}
-    {#                display: none;#}
-    {#            }#}
-    {##}
-    {#            .logo {#}
-    {#                max-width: 40%;#}
-    {#            }#}
-    {#        }#}
-    {#    </style>#}
-{#<body>#}
-{#<div class="container">#}
-{#    <p class="text-signin" style="font-size: 1.5rem;"><a href="/signin" class=""> Sing in </a></p>#}
-{#    <div class="dropdown">#}
-{#        <p class="text-base" style="font-size: 1.5rem;"><a href="/profile" class=""> Profile </a></p>#}
-{#        <div class="dropdown-content">#}
-{#            <a href="/settings">Edit Profile</a>#}
-{#            <br><a href="/logout">Log out</a>#}
-{#        </div>#}
-{#    </div>#}
-{#    <h1>Booking Airplane Tickets</h1>#}
-{#</div>#}
-{#<div class="search">#}
-{#    <form method="POST" action="search">#}
-{#        {% csrf_token %}#}
-{#        <input class="search-bar" type="text" name="search" autofocus x-webkit-speech/>#}
-{#        <div class="search-nav">#}
-{#            <div class="search-button">#}
-{#                <a href="#">#}
-{#                    <button type="submit">Google Search</button>#}
-{#                </a>#}
-{#            </div>#}
-{#        </div>#}
-{#    </form>#}
-{#</div>#}
-{##}
-{#{% if final_result %}#}
-{#    <b style="padding-left: 50px; padding-right: 50px; color: #646464;">Web Results</b>#}
-{#    {% for result in final_result %}#}
-{#        <div style="padding-left: 50px; padding-right: 50px;">#}
-{#            <h3 style="color: blue;"><a href="{{ result.1 }}">{{ result.0 }}</a></h3>#}
-{#            <h3 style="color: green;">{{ result.1 }}</h3>#}
-{#            <h3>{{ result.2 }}</h3>#}
-{#        </div><br><br>#}
-{#    {% endfor %}#}
-{#{% endif %}#}
-{#</body>#}
-{#</html>#}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab {
+            padding-left: 20px;
+            color: black;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+        {#place-items: center;#} text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            margin-left: 45px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        tr.row-style {
+            background-color: lightblue;
+            color: white;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input {
+            width: 200px;
+            height: 40px;
+        }
+
+        input[type="text"] {
+            text-align: center;
+        }
+
+        input[type="date"] {
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            text-align: center;
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .text-base {
+            position: absolute;
+            left: 105%; /* Розташування по осі X */
+            top: 5%; /* Розташування по осі Y */
+            transform: translate(30%, 5%); /* Центрування елементу */
+        }
+
+        .text-signin {
+            position: absolute;
+            left: 73%; /* Розташування по осі X */
+            top: 4.9%; /* Розташування по осі Y */
+            transform: translate(30%, -50%); /* Центрування елементу */
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            position: fixed;
+            left: 75%; /* Розташування по осі X */
+            top: 6%; /* Розташування по осі Y */
+            transform: translate(50%, 43%); /* Центрування елементу */
+        }
+
+        .figure {
+            background-color: lightblue;
+            border: 2px solid cornflowerblue;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    {#    <p class="text-signin" style="font-size: 1.5rem;"><a href="/signin" class=""> Sing in </a></p>#}
+    <div class="dropdown">
+        {% if user != 'AnonymousUser' %}
+            <p class="text-base" style="font-size: 1.5rem;"><a href="/profile/{{ user_profile.user.username }}"
+                                                               class="">
+                Profile </a></p>
+        {% else %}
+            <p class="text-base" style="font-size: 1.5rem;"><a href="/signin"
+                                                               class="">
+                Profile </a></p>
+        {% endif %}
+        {% if user != 'AnonymousUser' %}
+            <div class="dropdown-content">
+                <a href="/settings">Edit Profile</a>
+                {% if user_profile.company != '' %}
+                    <br><a href="/add-ticket">Add ticket</a>
+                {% endif %}
+                <br><a href="/logout">Log out</a>
+            </div>
+        {% endif %}
+    </div>
+    <a href="/" style="color: black; font-size: 35px; margin-top: 20px"><strong>Booking Airplane Tickets</strong></a>
+    {% if tickets_size == 0 %}
+        <h1 style="color: red; text-align: center; margin: 20% auto;">No tickets were found</h1>
+    {% else %}
+        {% for result in tickets %}
+            <figure class="figure">
+                <br>
+                <div style="padding-left: 50px; padding-right: 50px;">
+                    <h3 style="color: blue;">Company: <a href="#">{{ result.company }}</a></h3>
+                    <h3 style="color: green;">Destination 1: {{ result.destination1 }}</h3>
+                    <h3 style="color: green;">Destination 2: {{ result.destination2 }}</h3>
+                    <h3 style="color: green;">Date: {{ result.date }}</h3>
+                    <h3 style="color: green;">Time: {{ result.time }}</h3>
+                    <strong style="font-size: 20px;">Price: {{ result.price }}</strong>
+                </div>
+                <div style="padding-left: 50px; padding-right: 50px;">
+                    {% if user_profile.company == '' %}
+                        <a href="/buy-ticket?ticket_id={{ result.id }}" class="flex items-center space-x-2">
+                            Buy now
+                            {#                    <img src="https://i.pinimg.com/564x/0d/f0/c4/0df0c4851742f48f15038d16a6166935.jpg" width="30"#}
+                            {#                         height="30"/>#}
+                        </a>
+                    {% endif %}
+                </div>
+                <br>
+            </figure>
+            <br>
+        {% endfor %}
+    {% endif %}
+</div>
+</body>
+</html>

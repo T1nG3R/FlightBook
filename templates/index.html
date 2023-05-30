@@ -171,9 +171,9 @@
         {#        </div>#}
         <table>
             <tr class="row-style">
-                <td><input type="text" name="destination1" placeholder="Destination" required></td>
+                <td><input type="text" name="destination1" placeholder="Destination1" pattern="[A-Za-z]+" required></td>
                 <td>-></td>
-                <td><input type="text" name="destination2" placeholder="Destination" required></td>
+                <td><input type="text" name="destination2" placeholder="Destination2" pattern="[A-Za-z]+" required></td>
             </tr>
         </table>
         <table>
@@ -194,7 +194,7 @@
     {#    }#}
     {#    </script>#}
     <h2>Last added:</h2>
-    {% for result in tickets reversed %}
+    {% for result in tickets %}
         <figure class="figure">
             <br>
             <div style="padding-left: 50px; padding-right: 50px;">
@@ -202,9 +202,10 @@
                 <h3 style="color: green;">Destination 1: {{ result.destination1 }}</h3>
                 <h3 style="color: green;">Destination 2: {{ result.destination2 }}</h3>
                 <h3 style="color: green;">Date: {{ result.date }}</h3>
+                <h3 style="color: green;">Time: {{ result.time }}</h3>
             </div>
             <div style="padding-left: 50px; padding-right: 50px;">
-                <strong style="font-size: 20px;">Price: {{ result.id }}</strong>
+                <strong style="font-size: 20px;">Price: {{ result.price }}</strong>
                 {% if user_profile.company == '' %}
                     <a href="/buy-ticket?ticket_id={{ result.id }}" class="flex items-center space-x-2">
                         Buy now

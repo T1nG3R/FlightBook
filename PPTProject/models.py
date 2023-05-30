@@ -28,10 +28,12 @@ class Ticket(models.Model):
     company = models.CharField(max_length=100)
     destination1 = models.CharField(blank=True, max_length=100)
     destination2 = models.CharField(blank=True, max_length=100)
-    date = models.DateTimeField(null=True)
+    date = models.DateField(null=True)
+    time = models.TimeField(null=True)
+    price = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.destination1 + " " + self.destination2 + " " + str(self.date)
+        return self.destination1 + " " + self.destination2 + " " + str(self.date) + " " + str(self.time)
 
 
 class BuyTicket(models.Model):

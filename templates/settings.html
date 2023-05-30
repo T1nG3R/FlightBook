@@ -57,17 +57,17 @@
 
         <div class="col-span-2">
             <label for="firstname">First Name:</label>
-            <input type="text" name="first_name" value="{{ user_profile.firstname_user }}"
+            <input type="text" name="first_name" value="{{ user_profile.firstname_user }}" pattern="[A-Za-z]+"
                    class="shadow-none bg-gray-100" required>
         </div>
         <div class="col-span-2">
             <label for="lastname">Last Name:</label>
-            <input type="text" name="last_name" value="{{ user_profile.lastname_user }}" required>
+            <input type="text" name="last_name" value="{{ user_profile.lastname_user }}" pattern="[A-Za-z]+" required>
         </div>
         {% if user_profile.company != '' %}
             <div class="col-span-2">
                 <label for="company">Company:</label>
-                <input type="text" name="company" value="{{ user_profile.company }}">
+                <input type="text" name="company" value="{{ user_profile.company }}" pattern="[A-Za-z]+">
             </div>
         {% endif %}
         <div class="col-span-2">
@@ -89,7 +89,7 @@
         </div>
         <div class="col-span-2">
             <label for="phone">Phone:</label>
-            <input type="tel" name="phone" value="{{ user_profile.phone_user }}">
+            <input type="tel" name="phone" value="{{ user_profile.phone_user }}" pattern="[0-9]{10,12}">
         </div>
         <div class="col-span-2">
             <label for="email">Email:</label>
