@@ -95,6 +95,8 @@
             {% if user_profile.company != '' %}
                 <p>Company: {{ user_profile.company }}</p>
             {% endif %}
+            <a href="/settings" class="button">Edit Profile</a>
+            <a href="/logout" class="button">Log out</a>
         </div>
     </div>
     <h2>My Tickets:</h2>
@@ -126,7 +128,7 @@
                                 <td style="color: green;">Time: {{ result.0.time }}</td>
                             </tr>
                             <tr class="row-style">
-                                <td style="color: green;">Price: {{ result.0.price }}</td>
+                                <td style="color: black;">Price: {{ result.0.price }}</td>
                             </tr>
                         </table>
                     {% endif %}
@@ -148,7 +150,7 @@
                                 <td style="color: green;">Time: {{ result.time }}</td>
                             </tr>
                             <tr class="row-style">
-                                <td style="color: green;">Price: {{ result.price }}</td>
+                                <td style="color: black;">Price: {{ result.price }}</td>
                             </tr>
                         </table>
                         <a href="/edit-ticket/{{ result.id }}" class="button">Edit Ticket</a>
@@ -160,7 +162,6 @@
             </li>
         {% endfor %}
     </ul>
-    <a href="/settings" class="button">Edit Profile</a>
 </div>
 </body>
 </html>

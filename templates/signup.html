@@ -5,10 +5,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
+    <style>
+        .sign {
+            margin-left: 0;
+            margin-top: 8%;
+        }
+
+        .bg-gray-100 {
+            text-align: center;
+        }
+
+        .text-home {
+            margin-top: 4%;
+        }
+
+        .company {
+            margin-left: 18.33%;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
-<div id="wrapper" class="flex flex-col justify-between h-screen">
-    <p class="text-base" style="font-size: 1.5rem;"><a href="/" class=""> HOME </a></p>
+<div class="text-home">
+    <a href="/" style="color: black; font-size: 35px;"><strong>Booking Airplane Tickets</strong></a>
+</div>
+<div id="wrapper" class="sign">
     <div>
         <h1> Sign Up</h1>
         <div>
@@ -27,13 +47,15 @@
             <br><input type="text" name="lastname" placeholder="Last Name" pattern="[A-Za-z]+" required>
             <br><input type="text" name="username" placeholder="Username" required>
             <br><input type="email" name="email" placeholder="Email" required>
-            <br><input type="text" name="company" placeholder="Company" pattern="[A-Za-z0-9\s]+"> if you're just a user for buying tickets, then make it blank
-            <br><input type="password" name="password" placeholder="Password" required>
+            <div class="company">
+                <input type="text" name="company" placeholder="Company" pattern="[A-Za-z0-9\s]+"> if you're not a company worker left it clear
+            </div>
+            <input type="password" name="password" placeholder="Password" required>
             <br><input type="password" name="password2" placeholder="Confirm Password" required>
             <br>
             <button type="submit">Sign Up</button>
             <div>
-                <p class="text-base"> Do you have an account? <a href="/signin"> Login </a></p>
+                <p class="text-base"> Do you have an account? <a href="/signin"> Log in </a></p>
             </div>
         </form>
     </div>
