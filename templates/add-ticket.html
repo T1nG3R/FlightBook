@@ -77,18 +77,13 @@
             margin-right: auto;
         }
 
-        .text-base {
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            border: none;
+            min-width: 140px;
+            margin-left: 90%;
             position: absolute;
-            left: 105%; /* Розташування по осі X */
-            top: 5%; /* Розташування по осі Y */
-            transform: translate(30%, 5%); /* Центрування елементу */
-        }
-
-        .text-signin {
-            position: absolute;
-            left: 73%; /* Розташування по осі X */
-            top: 4.9%; /* Розташування по осі Y */
-            transform: translate(30%, -50%); /* Центрування елементу */
         }
 
         .dropdown {
@@ -99,19 +94,31 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            background-color: #f9f9f9;
-            min-width: auto;
-            padding: 10px;
-            border: 1px solid #ddd;
+            background-color: #f1f1f1;
+            min-width: 140px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
             z-index: 1;
+            margin-left: 90%;
+            margin-top: 6.1%;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 5px 5px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
         }
 
         .dropdown:hover .dropdown-content {
             display: block;
-            position: fixed;
-            left: 75%; /* Розташування по осі X */
-            top: 6%; /* Розташування по осі Y */
-            transform: translate(50%, 43%); /* Центрування елементу */
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
         }
     </style>
 </head>
@@ -120,12 +127,21 @@
 {#    <p class="text-signin" style="font-size: 1.5rem;"><a href="/signin" class=""> Sing in </a></p>#}
 {#    <p class="text-base" style="font-size: 1.5rem;"><a href="/" class=""> Home </a></p>#}
     <div class="dropdown">
-        <p class="text-base" style="font-size: 1.5rem;"><a href="/profile/{{ user.username }}" class=""> Profile </a></p>
-        <div class="dropdown-content">
-            <a href="/settings">Edit Profile</a>
-            <br><a href="/add-ticket">Add ticket</a>
-            <br><a href="/logout">Log out</a>
-        </div>
+        {% if user != 'AnonymousUser' %}
+            <a href="/profile/{{ user_profile.user.username }}"><p class="dropbtn" style="font-size: 1.5rem;">
+                Profile</p></a>
+        {% else %}
+            <a href="/signin"><p class="dropbtn" style="font-size: 1.5rem;">Profile</p></a>
+        {% endif %}
+        {% if user != 'AnonymousUser' %}
+            <div class="dropdown-content">
+                <a href="/settings">Edit Profile</a>
+                {% if user_profile.company != '' %}
+                    <a href="/add-ticket">Add ticket</a>
+                {% endif %}
+                <a href="/logout">Log out</a>
+            </div>
+        {% endif %}
     </div>
     <div>
         <style>
