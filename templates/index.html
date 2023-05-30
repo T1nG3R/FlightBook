@@ -161,19 +161,22 @@
         {% endfor %}
     </div>
     <form action="/search" method="GET">
-        {#        <div class="tab">#}
-        {#            Destination 1:#}
-        {#            <input type="text" name="destination1" placeholder="Destination 1" required>#}
-        {#        </div>#}
-        {#        <div class="tab">#}
-        {#            Destination 2:#}
-        {#            <input type="text" name="destination2" placeholder="Destination 2" required>#}
-        {#        </div>#}
         <table>
             <tr class="row-style">
-                <td><input type="text" name="destination1" placeholder="Destination1" pattern="[A-Za-z]+" required></td>
+                <td><input type="text" name="destination1" list="cities" placeholder="Destination1" pattern="[A-Za-z]+" required>
+                <datalist id="cities">
+                    {% for city in tickets %}
+                        <option value="{{ city.destination1}}"></option>
+                        <option value="{{ city.destination2}}"></option>
+                    {% endfor %}
+                </datalist></td>
                 <td>-></td>
-                <td><input type="text" name="destination2" placeholder="Destination2" pattern="[A-Za-z]+" required></td>
+                <td><input type="text" name="destination2" list="cities" placeholder="Destination2" pattern="[A-Za-z]+" required>                <datalist id="cities">
+                    {% for city in tickets %}
+                        <option value="{{ city.destination1}}"></option>
+                        <option value="{{ city.destination2}}"></option>
+                    {% endfor %}
+                </datalist></td>
             </tr>
         </table>
         <table>
@@ -187,12 +190,6 @@
     </form>
 </div>
 {% if tickets %}
-    {#    <script>#}
-    {#    var len = {{ tickets }}.length > 10 ? 10 : {{ tickets }}.length;#}
-    {#    for (i in len) {#}
-    {#        <fig>#}
-    {#    }#}
-    {#    </script>#}
     <h2>Last added:</h2>
     {% for result in tickets %}
         <figure class="figure">
