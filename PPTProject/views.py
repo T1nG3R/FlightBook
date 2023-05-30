@@ -10,7 +10,7 @@ from datetime import date, datetime
 
 # Create your views here.
 def index(request):
-    if str(request.user) != 'AnonymousUser':
+    if str(request.user) != 'AnonymousUser' and not request.user.is_superuser:
         user_object = User.objects.get(username=request.user.username)
         user_profile = Profile.objects.get(user=user_object)
 
@@ -18,13 +18,13 @@ def index(request):
         tickets.reverse()
         return render(request, 'index.html', {'user_profile': user_profile, 'tickets': tickets[:10]})
     else:
-        tickets = Ticket.objects.all()[:10]
-        return render(request, 'index.html', {'tickets': tickets, 'user': str(request.user)})
+        tickets = list(Ticket.objects.all())
+        tickets.reverse()
+        return render(request, 'index.html', {'tickets': tickets[:10], 'user': 'AnonymousUser'})
 
 
 def signup(request):
     if request.method == "POST":
-        # print(request.POST)
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
         username = request.POST['username']
@@ -45,11 +45,9 @@ def signup(request):
                                                 password=password, first_name=firstname, last_name=lastname)
                 user.save()
 
-                # log user in and redirect to settings page
                 user_login = auth.authenticate(username=username, password=password)
                 auth.login(request, user_login)
 
-                # create a Profile object for the new user
                 user_model = User.objects.get(username=username)
                 new_profile = Profile.objects.create(user=user_model, id_user=user_model.id, firstname_user=firstname,
                                                      lastname_user=lastname, mail_user=email, company=company)
@@ -64,7 +62,6 @@ def signup(request):
 
 def signin(request):
     if request.method == "POST":
-        # print(request.POST)
         username = request.POST['username']
         password = request.POST['password']
         user = auth.authenticate(username=username, password=password)
@@ -89,30 +86,26 @@ def logout(request):
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
-        # print(request.POST)
-        firstname = request.POST['first_name']
-        lastname = request.POST['last_name']
-        email = request.POST['email']
+        user_profile.firstname_user = request.POST['first_name']
+        user_profile.lastname_user = request.POST['last_name']
+        user_profile.mail_user = request.POST['email']
+
         date_of_birth = request.POST['date_of_birth']
-        phone = request.POST['phone']
+        if date_of_birth != '':
+            user_profile.date_of_birth_user = date_of_birth
+
         if 'company' in request.POST:
             company = request.POST['company']
             tickets = Ticket.objects.filter(company=user_profile.company, username=request.user.username)
-            # print(tickets)
             user_profile.company = company
             for i in tickets:
                 i.company = company
-                # print(i.company)
                 i.save()
+
+        user_profile.phone_user = request.POST['phone']
 
         if request.FILES.get('profile_picture') is not None:
             user_profile.profileimg = request.FILES.get('profile_picture')
-        user_profile.firstname_user = firstname
-        user_profile.lastname_user = lastname
-        user_profile.mail_user = email
-        if date_of_birth != '':
-            user_profile.date_of_birth_user = date_of_birth
-        user_profile.phone_user = phone
 
         user_profile.save()
         return profile(request, request.user.username)
@@ -143,27 +136,9 @@ def add_ticket(request):
         return render(request, 'add-ticket.html', {'user_profile': user_profile})
 
 
-# @login_required(login_url='signin')
-# def buy_ticket(request):
-#     user_profile = Profile.objects.get(user=request.user)
-#     username = request.user.username
-#     ticket_id = request.GET.get('ticket_id')
-#
-#     ticket = Ticket.objects.get(id=ticket_id)
-#     buy_filter = BuyTicket.objects.filter(ticket_id=ticket_id, username=username)
-#     if len(buy_filter) == 0:
-#         new_bought = BuyTicket.objects.create(ticket_id=ticket_id, username=username)
-#         new_bought.save()
-#         return redirect('/')
-#     else:
-#         buy_filter.delete()
-#         return redirect('/')
-
-
 @login_required(login_url='signin')
 def buy_ticket(request):
     user_profile = Profile.objects.get(user=request.user)
-    username = request.user.username
     ticket_id = request.GET.get('ticket_id')
     ticket = Ticket.objects.get(id=ticket_id)
 
@@ -252,8 +227,14 @@ def delete_ticket(request, pk):
         return HttpResponse("<h1 style=\"color: red; text-align: center; margin: 20% auto; \" >Permission Denied</h1>")
 
 
-def search_tickets(destination1, destination2, departure_date):
-    if str(departure_date) == '':
+def search_tickets(request_get):
+    destination1 = request_get.get('destination1', '')
+    destination2 = request_get.get('destination2', '')
+    departure_date = request_get.get('departure_date', '')
+    company = request_get.get('company', '')
+    if str(company) != '':
+        return Ticket.objects.filter(company=company)
+    elif str(departure_date) == '':
         return Ticket.objects.filter(destination1=destination1, destination2=destination2)
     else:
         return Ticket.objects.filter(destination1=destination1, destination2=destination2, date=departure_date)
@@ -262,10 +243,7 @@ def search_tickets(destination1, destination2, departure_date):
 def search(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
-    destination1 = request.GET.get('destination1', '')
-    destination2 = request.GET.get('destination2', '')
-    departure_date = request.GET.get('departure_date', '')
-    tickets = search_tickets(destination1, destination2, departure_date)
+    tickets = search_tickets(request.GET)
 
     context = {
         'user_profile': user_profile,

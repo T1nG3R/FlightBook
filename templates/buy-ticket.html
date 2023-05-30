@@ -52,7 +52,7 @@
     <form action="{% url 'complete-purchase' %}" method="GET">
         <figure style="border: 2px solid cornflowerblue; background-color: lightblue; padding-left: 50px;">
             <div class="col-span-2">
-                <h3 style="color: blue;">Company: <a href="#">{{ ticket.company }}</a></h3>
+                <h3 style="color: blue;">Company: <a href="/search?company={{ ticket.company }}">{{ ticket.company }}</a></h3>
                 <h3 style="color: green;">Destination 1: {{ ticket.destination1 }}</h3>
                 <h3 style="color: green;">Destination 2: {{ ticket.destination2 }}</h3>
                 <h3 style="color: green;">Date: {{ ticket.date }}</h3>
