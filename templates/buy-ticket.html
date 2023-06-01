@@ -58,6 +58,7 @@
                 <h3 style="color: green;">Date: {{ ticket.date }}</h3>
                 <h3 style="color: green;">Time: {{ ticket.time }}</h3>
                 <h3 style="color: black;">Price: {{ ticket.price }}</h3>
+                <h3 style="color: black;">Amount: {{ ticket.amount }}</h3>
             </div>
         </figure>
     </form>
@@ -87,7 +88,7 @@
         </div>
         <div class="col-span-2" style="padding-left: 50px;">
             <label for="date_of_birth">Date of Birth:</label>
-            <input type="date" id="dateOfBirth" name="date_of_birth">
+            <input type="date" id="dateOfBirth" name="date_of_birth" required>
             <script>
                 var dateOfBirthValue = "{{ user_profile.date_of_birth_user }}";
 

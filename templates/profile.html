@@ -109,7 +109,8 @@
                     {% if user_profile.company == '' %}
                         <table>
                             <tr class="row-style">
-                                <td style="color: blue;">Company: <a href="/search?company={{ result.0.company }}">{{ result.0.company }}</a></td>
+                                <td style="color: blue;">Company: <a
+                                        href="/search?company={{ result.0.company }}">{{ result.0.company }}</a></td>
                                 <td style="color: blue;">Name: {{ result.2 }} {{ result.3 }}</td>
                             </tr>
                             <tr class="row-style">
@@ -129,13 +130,15 @@
                             </tr>
                             <tr class="row-style">
                                 <td style="color: black;">Price: {{ result.0.price }}</td>
+                                <td style="color: black;">Amount: {{ result.0.amount }}</td>
                             </tr>
                         </table>
                     {% endif %}
                     {% if user_profile.company != '' %}
                         <table>
                             <tr class="row-style">
-                                <td style="color: blue;">Company: <a href="/search?company={{ result.company }}">{{ result.company }}</a></td>
+                                <td style="color: blue;">Company: <a
+                                        href="/search?company={{ result.company }}">{{ result.company }}</a></td>
                             </tr>
                             <tr class="row-style">
                                 <td style="color: green;">Destination 1: {{ result.destination1 }}</td>
@@ -151,6 +154,7 @@
                             </tr>
                             <tr class="row-style">
                                 <td style="color: black;">Price: {{ result.price }}</td>
+                                <td style="color: black;">Amount: {{ result.amount }}</td>
                             </tr>
                         </table>
                         <a href="/edit-ticket/{{ result.id }}" class="button">Edit Ticket</a>

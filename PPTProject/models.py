@@ -31,9 +31,10 @@ class Ticket(models.Model):
     date = models.DateField(null=True)
     time = models.TimeField(null=True)
     price = models.IntegerField(null=True)
+    amount = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.destination1 + " " + self.destination2 + " " + str(self.date) + " " + str(self.time)
+        return self.destination1 + " " + self.destination2 + " " + str(self.date) + " " + str(self.time) + str(self.amount)
 
 
 class BuyTicket(models.Model):

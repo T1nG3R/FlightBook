@@ -216,7 +216,8 @@
                 <h3 style="color: green;">Time: {{ result.time }}</h3>
             </div>
             <div style="padding-left: 50px; padding-right: 50px;">
-                <strong style="font-size: 20px;">Price: {{ result.price }}</strong>
+                <h3 style="font-size: 20px;">Price: {{ result.price }}</h3>
+                <h3 style="font-size: 20px;">Amount: {{ result.amount }}</h3>
                 {% if user_profile.company == '' %}
                     <a href="/buy-ticket?ticket_id={{ result.id }}" class="flex items-center space-x-2">
                         Buy now

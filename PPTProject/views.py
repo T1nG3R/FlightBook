@@ -1,11 +1,13 @@
+from datetime import datetime
 from uuid import UUID
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth.models import User, auth
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, auth
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+
 from .models import Profile, Ticket, BuyTicket
-from datetime import date, datetime
 
 
 # Create your views here.
@@ -116,8 +118,10 @@ def settings(request):
 def add_ticket(request):
     users = Profile.objects.all()
     company_profiles = [i.user.username for i in users if i.company != '']
+    # TODO: create external page for Permission Denied
     if str(request.user.username) not in company_profiles:
-        return HttpResponse("<h1 style=\"color: red; text-align: center; margin: 20% auto; \" >Permission Denied</h1>")
+        return HttpResponse("""<h1 style="color: red; text-align: center; margin: 20% auto; ">Permission Denied</h1>
+            <a href="/">Home</a>""")
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
     if request.method == 'POST':
@@ -126,10 +130,11 @@ def add_ticket(request):
         departure_date = request.POST['departure_date']
         departure_time = request.POST['departure_time']
         price = request.POST['price']
+        amount = request.POST['amount']
 
         new_post = Ticket.objects.create(company=user_profile.company, destination1=destination1,
                                          destination2=destination2, date=departure_date, time=departure_time,
-                                         username=user_object.username, price=price)
+                                         username=user_object.username, price=price, amount=amount)
         new_post.save()
         return redirect('/')
     else:
@@ -150,7 +155,11 @@ def complete_purchase(request):
     user_profile = Profile.objects.get(user=request.user)
     ticket_id = request.POST.get('ticket_id')
     ticket = Ticket.objects.get(id=ticket_id)
-    if (datetime.today() - datetime.strptime(request.POST['date_of_birth'], "%Y-%m-%d")).days >= 18 * 365:
+
+    if ticket.amount <= 0:
+        messages.info(request, 'No tickets left')
+        return render(request, "buy-ticket.html", {'user_profile': user_profile, 'ticket': ticket})
+    elif (datetime.today() - datetime.strptime(request.POST['date_of_birth'], "%Y-%m-%d")).days >= 18 * 365:
         username = request.user.username
         firstname = request.POST['first_name']
         lastname = request.POST['last_name']
@@ -158,9 +167,13 @@ def complete_purchase(request):
         date_of_birth = request.POST['date_of_birth']
         phone = request.POST['phone']
 
+        ticket.amount -= 1
+        ticket.save()
+
         new_bought = BuyTicket.objects.create(ticket_id=ticket_id, username=username, firstname=firstname,
                                               lastname=lastname, email=email, date_of_birth=date_of_birth, phone=phone)
         new_bought.save()
+
         return redirect('/')
     else:
         messages.info(request, 'Your age must be greater than 18')
@@ -170,7 +183,8 @@ def complete_purchase(request):
 @login_required(login_url='signin')
 def profile(request, pk):
     if request.user.username != pk:
-        return HttpResponse("<h1 style=\"color: red; text-align: center; margin: 20% auto; \" >Permission Denied</h1>")
+        return HttpResponse("""<h1 style="color: red; text-align: center; margin: 20% auto; ">Permission Denied</h1>
+            <a href="/">Home</a>""")
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
     if user_profile.company == '':
@@ -194,7 +208,8 @@ def profile(request, pk):
 def edit_ticket(request, pk):
     ticket = Ticket.objects.get(id=pk)
     if ticket.username != request.user.username:
-        return HttpResponse("<h1 style=\"color: red; text-align: center; margin: 20% auto; \" >Permission Denied</h1>")
+        return HttpResponse("""<h1 style="color: red; text-align: center; margin: 20% auto; ">Permission Denied</h1>
+            <a href="/">Home</a>""")
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
     if request.method == 'POST':
@@ -204,12 +219,14 @@ def edit_ticket(request, pk):
         departure_date = request.POST['departure_date']
         departure_time = request.POST['departure_time']
         price = request.POST['price']
+        amount = request.POST['amount']
 
         ticket.destination1 = destination1
         ticket.destination2 = destination2
         ticket.date = departure_date
         ticket.time = departure_time
         ticket.price = price
+        ticket.amount = amount
         ticket.save()
         return redirect('/')
     else:
@@ -224,7 +241,8 @@ def delete_ticket(request, pk):
         ticket.delete()
         return redirect('/profile/' + str(user_object.username))
     else:
-        return HttpResponse("<h1 style=\"color: red; text-align: center; margin: 20% auto; \" >Permission Denied</h1>")
+        return HttpResponse("""<h1 style="color: red; text-align: center; margin: 20% auto; ">Permission Denied</h1>
+            <a href="/">Home</a>""")
 
 
 def search_tickets(request_get):

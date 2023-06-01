@@ -175,7 +175,7 @@
         </div>
         <div class="tab">
             <label for="date">Date:</label>
-            <input type="date" name="departure_date" id="departureDate">
+            <input type="date" name="departure_date" id="departureDate" required>
             <script>
                 var departureDateValue = "{{ ticket.date }}"; // Assuming this is your departure date value
 
@@ -192,7 +192,7 @@
         </div>
         <div class="tab">
             <label for="time">Time:</label>
-            <input type="time" name="departure_time" id="departureTime">
+            <input type="time" name="departure_time" id="departureTime" required>
             {#            <input type="time" id="departure_time_input">#}
 
             <script>
@@ -203,6 +203,11 @@
         <div class="tab">
             Price:
             <input type="text" name="price" value="{{ ticket.price }}" placeholder="Price"
+                   pattern="[0-9]+" required>
+        </div>
+        <div class="tab">
+            Amount:
+            <input type="text" name="amount" value="{{ ticket.amount }}" placeholder="Amount"
                    pattern="[0-9]+" required>
         </div>
         <br>
