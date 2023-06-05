@@ -128,7 +128,6 @@
 </head>
 <body>
 <div class="container">
-    <h1><a href="/">Home</a> / Edit Ticket</h1>
     <div class="dropdown">
         {% if user != 'AnonymousUser' %}
             <a href="/profile/{{ user_profile.user.username }}"><p class="dropbtn" style="font-size: 1.5rem;">
@@ -146,6 +145,7 @@
             </div>
         {% endif %}
     </div>
+    <h1><a href="/">Home</a> / Edit Ticket</h1>
     <div>
         <style>
             h5 {

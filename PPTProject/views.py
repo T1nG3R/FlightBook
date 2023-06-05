@@ -4,7 +4,6 @@ from uuid import UUID
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from .models import Profile, Ticket, BuyTicket
@@ -118,10 +117,8 @@ def settings(request):
 def add_ticket(request):
     users = Profile.objects.all()
     company_profiles = [i.user.username for i in users if i.company != '']
-    # TODO: create external page for Permission Denied
     if str(request.user.username) not in company_profiles:
-        return HttpResponse("""<h1 style="color: red; text-align: center; margin: 20% auto; ">Permission Denied</h1>
-            <a href="/">Home</a>""")
+        return render(request, 'permission-denied.html')
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
     if request.method == 'POST':
@@ -183,8 +180,8 @@ def complete_purchase(request):
 @login_required(login_url='signin')
 def profile(request, pk):
     if request.user.username != pk:
-        return HttpResponse("""<h1 style="color: red; text-align: center; margin: 20% auto; ">Permission Denied</h1>
-            <a href="/">Home</a>""")
+        return render(request, 'permission-denied.html')
+
     user_object = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
     if user_profile.company == '':
@@ -208,8 +205,8 @@ def profile(request, pk):
 def edit_ticket(request, pk):
     ticket = Ticket.objects.get(id=pk)
     if ticket.username != request.user.username:
-        return HttpResponse("""<h1 style="color: red; text-align: center; margin: 20% auto; ">Permission Denied</h1>
-            <a href="/">Home</a>""")
+        return render(request, 'permission-denied.html')
+
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
     if request.method == 'POST':
@@ -241,8 +238,7 @@ def delete_ticket(request, pk):
         ticket.delete()
         return redirect('/profile/' + str(user_object.username))
     else:
-        return HttpResponse("""<h1 style="color: red; text-align: center; margin: 20% auto; ">Permission Denied</h1>
-            <a href="/">Home</a>""")
+        return render(request, 'permission-denied.html')
 
 
 def search_tickets(request_get):

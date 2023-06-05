@@ -32,21 +32,29 @@
         }
 
         .button {
-            display: inline-block;
+            display: inline;
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: cornflowerblue;
             color: #fff;
             text-decoration: none;
             border-radius: 4px;
             width: auto;
             border: 1px solid #ccc;
-            font-size: 16px; /* Розмір шрифту кнопки */
-            font-family: Arial, sans-serif; /* Шрифт кнопки */
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            margin: 0 auto;
+
         }
 
         .button:hover {
-            background-color: #45a049;
+            background-color: #4CAF50;
         }
+
+        a.button:hover {
+            background-color: red;
+        }
+
     </style>
 </head>
 <body>
@@ -106,8 +114,10 @@
             <label for="profile_picture"> Profile Image</label>
             <br><input type="file" name="profile_picture" value="">
         </div>
-{#        <a href="/profile/{{ user_profile.user.username }}" class="button">Cancel</a>#}
-        <input type="submit" value="Save" class="button">
+        <div class="btn-group">
+            <input type="submit" value="Save" class="button">
+            <a class="button" href="/profile/{{ user_profile.user.username }}">Cancel</a>
+        </div>
     </form>
 </div>
 </body>
