@@ -193,11 +193,35 @@
         <div class="tab">
             <label for="time">Time:</label>
             <input type="time" name="departure_time" id="departureTime" required>
-            {#            <input type="time" id="departure_time_input">#}
 
             <script>
-                var departureTime = document.getElementById('departureTime').value;
-                console.log('Time:', departureTime);
+                var departureTimeValue = "{{ ticket.time }}";
+
+                if (departureTimeValue) {
+                    function convertTo24HourFormat(time) {
+                        var tokens = time.split(':');
+                        var hours = parseInt(tokens[0]);
+                        var minutes = parseInt(tokens[1]);
+
+                        if (time.includes('p.m.')) {
+                            hours = (hours % 12) + 12;
+                        } else {
+                            hours = hours % 12;
+                        }
+                        hours = ('0' + hours).slice(-2);
+
+                        if (minutes) {
+                            minutes = ('0' + minutes).slice(-2);
+                        } else {
+                            minutes = '00'
+                        }
+
+                        return hours + ':' + minutes;
+                    }
+
+                    document.getElementById("departureTime").value = convertTo24HourFormat(departureTimeValue);
+                }
+
             </script>
         </div>
         <div class="tab">
