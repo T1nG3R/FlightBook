@@ -18,10 +18,6 @@
         .text-home {
             margin-top: 4%;
         }
-
-        .company {
-            margin-left: 18.33%;
-        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -47,9 +43,20 @@
             <br><input type="text" name="lastname" placeholder="Last Name" pattern="[A-Za-z]+" required>
             <br><input type="text" name="username" placeholder="Username" required>
             <br><input type="email" name="email" placeholder="Email" required>
+
             <div class="company">
-                <input type="text" name="company" placeholder="Company" pattern="[A-Za-z0-9\s]+"> if you're not a company worker left it clear
+                <input type="checkbox" id="companyCheckbox"/>
+                I am part of a company
+                <br><input type="text" name="company" id="company" placeholder="Company" pattern="[A-Za-z0-9\s]+"
+                           hidden>
             </div>
+
+            <script>
+                document.getElementById('companyCheckbox').onchange = function () {
+                    document.getElementById('company').hidden = !this.checked;
+                };
+            </script>
+
             <input type="password" name="password" placeholder="Password" required>
             <br><input type="password" name="password2" placeholder="Confirm Password" required>
             <br>
