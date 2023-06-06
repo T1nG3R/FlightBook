@@ -116,9 +116,21 @@ def settings(request):
 
 
 @login_required(login_url='signin')
+def delete_profile(request, pk):
+    user_object = User.objects.get(username=pk)
+    user_profile = Profile.objects.get(user=user_object)
+    if request.user.username == pk:
+        user_object.delete()
+        user_profile.delete()
+        return redirect('/')
+    else:
+        return render(request, 'permission-denied.html')
+
+
+@login_required(login_url='signin')
 def add_ticket(request):
     users = Profile.objects.all()
-    company_profiles = [i.user.username for i in users if i.company != '']
+    company_profiles = [profile.user.username for profile in users if profile.company != '']
     if str(request.user.username) not in company_profiles:
         return render(request, 'permission-denied.html')
     user_object = User.objects.get(username=request.user.username)
@@ -188,7 +200,7 @@ def profile(request, pk):
     user_profile = Profile.objects.get(user=user_object)
     if user_profile.company == '':
         tickets = BuyTicket.objects.filter(username=pk)
-        user_tickets = [str(t).split() for t in tickets]
+        user_tickets = [str(ticket).split() for ticket in tickets]
         tickets_data = [Ticket.objects.get(id=UUID(str(i[0]))) for i in user_tickets]
         for i in range(len(tickets_data)):
             user_tickets[i].insert(0, tickets_data[i])
@@ -260,7 +272,6 @@ def search(request):
     user_profile = Profile.objects.get(user=user_object)
     tickets = search_tickets(request.GET)
     date_value = str(request.GET.get('departure_date')) == ''
-    print(request.GET)
 
     if 'sort' in request.GET:
         if 'price' in request.GET.get('sort'):
@@ -277,4 +288,3 @@ def search(request):
         'date_value': date_value
     }
     return render(request, 'search.html', context)
-
