@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
+    <title>Search</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -155,17 +155,60 @@
     {% if tickets_size == 0 %}
         <h1 style="color: red; text-align: center; margin: 20% auto;">No tickets were found</h1>
     {% else %}
+        <form action="/search" method="get">
+            <input type="hidden" name="destination1" value="{{ tickets.0.destination1 }}">
+            <input type="hidden" name="destination2" value="{{ tickets.0.destination2 }}">
+            <input type="hidden" name="departure_date" id="departureDate">
+            {% if not date_value %}
+                <script>
+                    var departureDateValue = "{{ tickets.0.date }}"; // Assuming this is your departure date value
+
+                    if (departureDateValue) {
+                        var departureDate = new Date(departureDateValue);
+                        var year = departureDate.getFullYear();
+                        var month = ('0' + (departureDate.getMonth() + 1)).slice(-2);
+                        var day = ('0' + departureDate.getDate()).slice(-2);
+                        var formattedDate = year + '-' + month + '-' + day;
+
+                        document.getElementById("departureDate").value = formattedDate;
+                        console.log('Departure Time:', formattedDate);
+                    }
+                </script>
+            {% endif %}
+            <br>
+            <div class="btn-group">
+                <label for="sort">Sort by:</label>
+                <select name="sort" id="sort">
+                    <optgroup label="Price">
+                        <option value="ascending price">Ascending order</option>
+                        <option value="descending price">Descending order</option>
+                    </optgroup>
+                    <optgroup label="Date and Time">
+                        <option value="ascending datetime">Ascending order</option>
+                        <option value="descending datetime">Descending order</option>
+                    </optgroup>
+                    <optgroup label="Amount">
+                        <option value="ascending amount">Ascending order</option>
+                        <option value="descending amount">Descending order</option>
+                    </optgroup>
+                </select>
+                <a href="/search">
+                    <button>Sort</button>
+                </a>
+            </div>
+        </form>
         {% for result in tickets %}
             <figure class="figure">
                 <br>
                 <div style="padding-left: 50px; padding-right: 50px;">
-                    <h3 style="color: blue;">Company: <a href="/search?company={{ result.company }}">{{ result.company }}</a></h3>
+                    <h3 style="color: blue;">Company: <a
+                            href="/search?company={{ result.company }}">{{ result.company }}</a></h3>
                     <h3 style="color: green;">Destination 1: {{ result.destination1 }}</h3>
                     <h3 style="color: green;">Destination 2: {{ result.destination2 }}</h3>
                     <h3 style="color: green;">Date: {{ result.date }}</h3>
                     <h3 style="color: green;">Time: {{ result.time }}</h3>
                     <h3 style="font-size: 20px;">Price: {{ result.price }}</h3>
-                    <h3 style="font-size: 20px;">Price: {{ result.amount }}</h3>
+                    <h3 style="font-size: 20px;">Amount: {{ result.amount }}</h3>
                 </div>
                 <div style="padding-left: 50px; padding-right: 50px;">
                     {% if user_profile.company == '' %}

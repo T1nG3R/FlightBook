@@ -4,9 +4,11 @@ from uuid import UUID
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from .models import Profile, Ticket, BuyTicket
+from .utils.sorting import *
 
 
 # Create your views here.
@@ -192,7 +194,6 @@ def profile(request, pk):
             user_tickets[i].insert(0, tickets_data[i])
     else:
         user_tickets = Ticket.objects.filter(username=pk)
-    # print(user_tickets)
     context = {
         'user_object': user_object,
         'user_profile': user_profile,
@@ -258,10 +259,22 @@ def search(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
     tickets = search_tickets(request.GET)
+    date_value = str(request.GET.get('departure_date')) == ''
+    print(request.GET)
+
+    if 'sort' in request.GET:
+        if 'price' in request.GET.get('sort'):
+            tickets = sort_by_price(tickets, request.GET.get('sort'))
+        elif 'datetime' in request.GET.get('sort'):
+            tickets = sort_by_datetime(tickets, request.GET.get('sort'))
+        elif 'amount' in request.GET.get('sort'):
+            tickets = sort_by_amount(tickets, request.GET.get('sort'))
 
     context = {
         'user_profile': user_profile,
         'tickets': tickets,
-        'tickets_size': len(tickets)
+        'tickets_size': len(tickets),
+        'date_value': date_value
     }
     return render(request, 'search.html', context)
+
