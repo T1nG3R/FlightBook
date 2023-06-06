@@ -1,0 +1,243 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab {
+            padding-left: 20px;
+            color: black;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+        {#place-items: center;#} text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: auto; /* Ширина кнопки */
+            font-size: 16px; /* Розмір шрифту кнопки */
+            font-family: Arial, sans-serif; /* Шрифт кнопки */
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        tr.row-style {
+            background-color: lightblue;
+            color: white;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input {
+            width: 200px;
+            height: 40px;
+        }
+
+        input[type="text"] {
+            text-align: center;
+        }
+
+        input[type="date"] {
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            text-align: center;
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            border: none;
+            min-width: 140px;
+            margin-left: 90%;
+            position: absolute;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 140px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            margin-left: 90%;
+            margin-top: 6.1%;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 5px 5px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="dropdown">
+        {% if user != 'AnonymousUser' %}
+            <a href="/profile/{{ user_profile.user.username }}"><p class="dropbtn" style="font-size: 1.5rem;">
+                Profile</p></a>
+        {% else %}
+            <a href="/signin"><p class="dropbtn" style="font-size: 1.5rem;">Profile</p></a>
+        {% endif %}
+        {% if user != 'AnonymousUser' %}
+            <div class="dropdown-content">
+                <a href="/settings">Edit Profile</a>
+                {% if user_profile.company != '' %}
+                    <a href="/add-ticket">Add ticket</a>
+                {% endif %}
+                <a href="/logout">Log out</a>
+            </div>
+        {% endif %}
+    </div>
+    <h1><a href="/">Home</a> / Edit Ticket</h1>
+    <div>
+        <style>
+            h5 {
+                color: red;
+            }
+        </style>
+        {% for message in messages %}
+            <h5>{{ message }}</h5>
+        {% endfor %}
+    </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="username" value="{{ user.username }}">
+        <div class="tab">
+            Company:
+            <label>{{ user_profile.company }}</label>
+        </div>
+        <div class="tab">
+            Destination 1:
+            <input type="text" name="destination1" value="{{ ticket.destination1 }}" placeholder="Destination 1"
+                   pattern="[A-Za-z]+" required>
+        </div>
+        <div class="tab">
+            Destination 2:
+            <input type="text" name="destination2" value="{{ ticket.destination2 }}" placeholder="Destination 2"
+                   pattern="[A-Za-z]+" required>
+        </div>
+        <div class="tab">
+            <label for="date">Date:</label>
+            <input type="date" name="departure_date" id="departureDate" required>
+            <script>
+                var departureDateValue = "{{ ticket.date }}"; // Assuming this is your departure date value
+
+                if (departureDateValue) {
+                    var departureDate = new Date(departureDateValue);
+                    var year = departureDate.getFullYear();
+                    var month = ('0' + (departureDate.getMonth() + 1)).slice(-2);
+                    var day = ('0' + departureDate.getDate()).slice(-2);
+                    var formattedDate = year + '-' + month + '-' + day;
+
+                    document.getElementById("departureDate").value = formattedDate;
+                }
+            </script>
+        </div>
+        <div class="tab">
+            <label for="time">Time:</label>
+            <input type="time" name="departure_time" id="departureTime" required>
+
+            <script>
+                var departureTimeValue = "{{ ticket.time }}";
+
+                if (departureTimeValue) {
+                    function convertTo24HourFormat(time) {
+                        var tokens = time.split(':');
+                        var hours = parseInt(tokens[0]);
+                        var minutes = parseInt(tokens[1]);
+
+                        if (time.includes('p.m.')) {
+                            hours = (hours % 12) + 12;
+                        } else {
+                            hours = hours % 12;
+                        }
+                        hours = ('0' + hours).slice(-2);
+
+                        if (minutes) {
+                            minutes = ('0' + minutes).slice(-2);
+                        } else {
+                            minutes = '00'
+                        }
+
+                        return hours + ':' + minutes;
+                    }
+
+                    document.getElementById("departureTime").value = convertTo24HourFormat(departureTimeValue);
+                }
+
+            </script>
+        </div>
+        <div class="tab">
+            Price:
+            <input type="text" name="price" value="{{ ticket.price }}" placeholder="Price"
+                   pattern="[0-9]+" required>
+        </div>
+        <div class="tab">
+            Amount:
+            <input type="text" name="amount" value="{{ ticket.amount }}" placeholder="Amount"
+                   pattern="[0-9]+" required>
+        </div>
+        <br>
+        <a href="/profile/{{ user_profile.user.username }}" class="button">Cancel</a>
+        <input type="submit" value="Save Ticket" class="button">
+    </form>
+</div>
+</body>
+</html>

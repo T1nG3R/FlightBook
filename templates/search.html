@@ -1,0 +1,229 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tab {
+            padding-left: 20px;
+            color: black;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+        {#place-items: center;#} text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            margin-left: 45px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        tr.row-style {
+            background-color: lightblue;
+            color: white;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input {
+            width: 200px;
+            height: 40px;
+        }
+
+        input[type="text"] {
+            text-align: center;
+        }
+
+        input[type="date"] {
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            text-align: center;
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .dropbtn {
+            background-color: #04AA6D;
+            color: white;
+            border: none;
+            min-width: 140px;
+            margin-left: 90%;
+            position: absolute;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 140px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            margin-left: 90%;
+            margin-top: 6.1%;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 5px 5px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+
+        .figure {
+            background-color: lightblue;
+            border: 2px solid cornflowerblue;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    {#    <p class="text-signin" style="font-size: 1.5rem;"><a href="/signin" class=""> Sing in </a></p>#}
+    <div class="dropdown">
+        {% if user != 'AnonymousUser' %}
+            <a href="/profile/{{ user_profile.user.username }}"><p class="dropbtn" style="font-size: 1.5rem;">
+                Profile</p></a>
+        {% else %}
+            <a href="/signin"><p class="dropbtn" style="font-size: 1.5rem;">Profile</p></a>
+        {% endif %}
+        {% if user != 'AnonymousUser' %}
+            <div class="dropdown-content">
+                <a href="/settings">Edit Profile</a>
+                {% if user_profile.company != '' %}
+                    <a href="/add-ticket">Add ticket</a>
+                {% endif %}
+                <a href="/logout">Log out</a>
+            </div>
+        {% endif %}
+    </div>
+    <a href="/" style="color: black; font-size: 35px; margin-top: 20px"><strong>Booking Airplane Tickets</strong></a>
+    {% if tickets_size == 0 %}
+        <h1 style="color: red; text-align: center; margin: 20% auto;">No tickets were found</h1>
+    {% else %}
+        <form action="/search" method="get">
+            <input type="hidden" name="destination1" value="{{ tickets.0.destination1 }}">
+            <input type="hidden" name="destination2" value="{{ tickets.0.destination2 }}">
+            <input type="hidden" name="departure_date" id="departureDate">
+            {% if not date_value %}
+                <script>
+                    var departureDateValue = "{{ tickets.0.date }}"; // Assuming this is your departure date value
+
+                    if (departureDateValue) {
+                        var departureDate = new Date(departureDateValue);
+                        var year = departureDate.getFullYear();
+                        var month = ('0' + (departureDate.getMonth() + 1)).slice(-2);
+                        var day = ('0' + departureDate.getDate()).slice(-2);
+                        var formattedDate = year + '-' + month + '-' + day;
+
+                        document.getElementById("departureDate").value = formattedDate;
+                        console.log('Departure Time:', formattedDate);
+                    }
+                </script>
+            {% endif %}
+            <br>
+            <div class="btn-group">
+                <label for="sort">Sort by:</label>
+                <select name="sort" id="sort">
+                    <optgroup label="Price">
+                        <option value="ascending price">Ascending order</option>
+                        <option value="descending price">Descending order</option>
+                    </optgroup>
+                    <optgroup label="Date and Time">
+                        <option value="ascending datetime">Ascending order</option>
+                        <option value="descending datetime">Descending order</option>
+                    </optgroup>
+                    <optgroup label="Amount">
+                        <option value="ascending amount">Ascending order</option>
+                        <option value="descending amount">Descending order</option>
+                    </optgroup>
+                </select>
+                <a href="/search">
+                    <button>Sort</button>
+                </a>
+            </div>
+        </form>
+        {% for result in tickets %}
+            <figure class="figure">
+                <br>
+                <div style="padding-left: 50px; padding-right: 50px;">
+                    <h3 style="color: blue;">Company: <a
+                            href="/search?company={{ result.company }}">{{ result.company }}</a></h3>
+                    <h3 style="color: green;">Destination 1: {{ result.destination1 }}</h3>
+                    <h3 style="color: green;">Destination 2: {{ result.destination2 }}</h3>
+                    <h3 style="color: green;">Date: {{ result.date }}</h3>
+                    <h3 style="color: green;">Time: {{ result.time }}</h3>
+                    <h3 style="font-size: 20px;">Price: {{ result.price }}</h3>
+                    <h3 style="font-size: 20px;">Amount: {{ result.amount }}</h3>
+                </div>
+                <div style="padding-left: 50px; padding-right: 50px;">
+                    {% if user_profile.company == '' %}
+                        <a href="/buy-ticket?ticket_id={{ result.id }}" class="flex items-center space-x-2">
+                            Buy now
+                            {#                    <img src="https://i.pinimg.com/564x/0d/f0/c4/0df0c4851742f48f15038d16a6166935.jpg" width="30"#}
+                            {#                         height="30"/>#}
+                        </a>
+                    {% endif %}
+                </div>
+                <br>
+            </figure>
+            <br>
+        {% endfor %}
+    {% endif %}
+</div>
+</body>
+</html>
