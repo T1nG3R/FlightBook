@@ -34,10 +34,12 @@ class Ticket(models.Model):
     amount = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.destination1 + " " + self.destination2 + " " + str(self.date) + " " + str(self.time) + str(self.amount)
+        return self.destination1 + " " + self.destination2 + " " + str(self.date) + " " + str(self.time) + str(
+            self.amount)
 
 
 class BuyTicket(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     ticket_id = models.CharField(max_length=500)
     username = models.CharField(max_length=100)
     firstname = models.CharField(blank=True, max_length=100)
@@ -47,4 +49,5 @@ class BuyTicket(models.Model):
     phone = models.CharField(blank=True, max_length=12)
 
     def __str__(self):
-        return self.ticket_id + " " + self.firstname + " " + self.lastname + " " + str(self.date_of_birth) + " " + self.email + " " + self.phone
+        return self.ticket_id + " " + self.firstname + " " + self.lastname + " " + str(
+            self.date_of_birth) + " " + self.email + " " + self.phone + " " + str(self.id)

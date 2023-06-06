@@ -254,6 +254,21 @@ def delete_ticket(request, pk):
         return render(request, 'permission-denied.html')
 
 
+@login_required(login_url='signin')
+def return_ticket(request, pk):
+    bought_ticket = BuyTicket.objects.get(id=pk)
+    if request.user.username == bought_ticket.username:
+        user_object = User.objects.get(username=request.user.username)
+        ticket = Ticket.objects.get(id=bought_ticket.ticket_id)
+        ticket.amount += 1
+        ticket.save()
+        bought_ticket.delete()
+
+        return redirect('/profile/' + str(user_object.username))
+    else:
+        return render(request, 'permission-denied.html')
+
+
 def search_tickets(request_get):
     destination1 = request_get.get('destination1', '')
     destination2 = request_get.get('destination2', '')

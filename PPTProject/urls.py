@@ -7,6 +7,7 @@ urlpatterns = [
     path('add-ticket', views.add_ticket, name='add-ticket'),
     path('edit-ticket/<str:pk>', views.edit_ticket, name='edit-ticket'),
     path('delete-ticket/<str:pk>', views.delete_ticket, name='delete-ticket'),
+    path('return-ticket/<str:pk>', views.return_ticket, name='return-ticket'),
     path('buy-ticket', views.buy_ticket, name='buy-ticket'),
     path('complete-purchase', views.complete_purchase, name='complete-purchase'),
     path('signup', views.signup, name='signup'),

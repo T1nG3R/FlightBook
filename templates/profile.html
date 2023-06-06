@@ -133,6 +133,8 @@
                                 <td style="color: black;">Amount: {{ result.0.amount }}</td>
                             </tr>
                         </table>
+                        <a href="/return-ticket/{{ result.7 }}" class="button">Return Ticket</a>
+                        <br>
                     {% endif %}
                     {% if user_profile.company != '' %}
                         <table>
